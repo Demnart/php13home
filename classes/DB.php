@@ -1,7 +1,7 @@
 <?php
 
 
-class MySql
+class DB
 {
 
     private $host;
