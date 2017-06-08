@@ -23,7 +23,7 @@ class MySql
         return mysqli_connect($this->host,$this->root,$this->password,$this->db);
     }
 
-    public function getDataFromDB($sql,$class = 'stdClass')
+    public function getAllDataFromDB($sql, $class = 'stdClass')
     {
         $data=[];
         $resource = $this->connectToDB();
@@ -35,5 +35,10 @@ class MySql
             $data[] = $row;
         }
         return $data;
+    }
+
+    public function getOneDataFromDB($sql,$class = 'stdClass')
+    {
+        return $this->getAllDataFromDB($sql,$class)[0];
     }
 }
