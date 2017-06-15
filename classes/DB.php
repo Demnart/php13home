@@ -3,42 +3,19 @@
 
 class DB
 {
+    private $dbh;
 
-    private $host;
-    private $root;
-    private $password;
-    private $db;
-
-
-    public function __construct($host = 'localhost',$root = 'root',$password = 'death9393',$db = 'php13')
+    public function __construct()
     {
-        $this->host = $host;
-        $this->root = $root;
-        $this->password = $password;
-        $this->db = $db;
+        $this->dbh = new PDO('mysql:dbname=php13;host=localhost', 'root', 'death9393');
+        $this->dbh->exec('Set charset utf8');
     }
 
-    private function connectToDB()
+    public function querry($sql, $params = [])
     {
-        return mysqli_connect($this->host,$this->root,$this->password,$this->db);
-    }
+        $sth = $this->dbh->prepare($sql);
+        $sth->execute($params);
+        return $sth->fetchAll(PDO::FETCH_OBJ);
 
-    public function getAllDataFromDB($sql, $class = 'stdClass')
-    {
-        $data=[];
-        $resource = $this->connectToDB();
-        mysqli_set_charset($resource,"utf8");
-        $result = mysqli_query($resource,$sql);
-
-        while (NULL !== $row = mysqli_fetch_object($result,$class))
-        {
-            $data[] = $row;
-        }
-        return $data;
-    }
-
-    public function getOneDataFromDB($sql,$class = 'stdClass')
-    {
-        return $this->getAllDataFromDB($sql,$class)[0];
     }
 }

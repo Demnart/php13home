@@ -3,21 +3,11 @@
 
 class AbstractModel
 {
+    static protected $table;
 
-    protected static $table;
-    protected static $class;
-
-    public static function getAll()
+    public static function getTable()
     {
-        $db = new DB();
-        $sql ="SELECT * FROM " . static::$table;
-        return $db->getAllDataFromDB($sql,static::class);
+        return static::$table ;
     }
 
-    public static function  getOne($id)
-    {
-        $db = new DB();
-        $sql = "SELECT * FROM " . static::$table . " WHERE id = " . $id;
-        return $db->getOneDataFromDB($sql,static::$class);
-    }
 }

@@ -6,14 +6,22 @@ class NewsController
 
     public function actionAll()
     {
-        $items = News::getAll();
-        include __DIR__ . '/../views/news/all.php';
+         $db = new DB();
+         $res =$db->querry(" SELECT * FROM news WHERE id = :id ",[':id'=>1]);
+         var_dump($res);
+         die;
+//        $items = News::getAll();
+//        $view = new View();
+//        $view->items = $items;
+//        $view->displayAll('/news/all.php');
     }
 
     public function actionOne()
     {
         $id = $_GET['id'];
         $item = News::getOne($id);
-        include __DIR__ . '/../views/news/one.php';
+        $view = new View();
+        $view->item = $item;
+        $view->displayOne('/news/one.php');
     }
 }
