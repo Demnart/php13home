@@ -4,6 +4,8 @@
 class DB
 {
     private $dbh;
+    private $classname;
+
 
     public function __construct()
     {
@@ -11,11 +13,16 @@ class DB
         $this->dbh->exec('Set charset utf8');
     }
 
+    public function setClassName($className)
+    {
+        $this->classname = $className;
+    }
+
     public function querry($sql, $params = [])
     {
         $sth = $this->dbh->prepare($sql);
         $sth->execute($params);
-        return $sth->fetchAll(PDO::FETCH_OBJ);
+        return $sth->fetchAll(PDO::FETCH_CLASS,$this->classname);
 
     }
 }
